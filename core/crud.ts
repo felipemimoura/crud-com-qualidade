@@ -1,15 +1,104 @@
 import fs from "fs";
-const DB_FILE_PATH = "./core/db"
+import { v4 as uuid } from "uuid";
+const DB_FILE_PATH = "./core/db";
 console.log(" [CRUD]");
 
-function create(content: string) {
+interface Todo {
+  id: string;
+  date: string;
+  content: string;
+  done: boolean;
+}
+
+function create(content: string): Todo {
+  const todo: Todo = {
+    id: uuid(),
+    date: new Date().toISOString(),
+    content: content,
+    done: false,
+  };
+
+  const todos: Array<Todo> = [...read(), todo];
+
   //Salvar o content no sistema
-  fs.writeFileSync(DB_FILE_PATH, content)
-  return content;
+  fs.writeFileSync(
+    DB_FILE_PATH,
+    JSON.stringify(
+      {
+        todos,
+      },
+      null,
+      2
+    )
+  );
+  return todo;
+}
+
+function read(): Array<Todo> {
+  const dbString = fs.readFileSync(DB_FILE_PATH, "utf8"); // Leitura dos arquivos
+
+  const db = JSON.parse(dbString || "{}");
+
+  if (!db.todos) {
+    // Fail fast validation
+    return [];
+  }
+  return db.todos;
+}
+
+function update(id: string, partialTodo: Partial<Todo>): Todo {
+  let updatedTodo;
+  // Buscar todas as todos
+  const todos = read();
+
+  todos.forEach((currentTodo) => {
+    const isToUpdate = currentTodo.id === id;
+
+    if (isToUpdate) {
+      updatedTodo = Object.assign(currentTodo, partialTodo);
+    }
+  });
+
+  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({ todos }, null, 2));
+
+  if (!updatedTodo) {
+    throw new Error("Please, provide another Id");
+  }
+
+  return updatedTodo;
+}
+
+function deleteById(id: string) {
+  // get all todos
+  const todos = read();
+
+  const todosWithoutOne = todos.filter((todo) => {
+    return todo.id !== id;
+  });
+
+  console.log("Todos without one", todosWithoutOne);
+
+  fs.writeFileSync(
+    DB_FILE_PATH,
+    JSON.stringify({
+      todos: todosWithoutOne,
+    }, null, 2)
+  );
+}
+
+function CLEAR_DB() {
+  fs.writeFileSync(DB_FILE_PATH, "");
 }
 
 // [Simulation]
-create("Hoje eu preciso gravar aulas")
+CLEAR_DB();
+create("Primeira tudo");
+const secondTodo = create("Segunda tudo");
+const thirdTod = create("Third todo");
 
-
-
+deleteById(secondTodo.id);
+// update(secondTodo.id, {
+//   content: "Segunda TODO com novo content",
+//   done: true
+// });
+console.log(read());

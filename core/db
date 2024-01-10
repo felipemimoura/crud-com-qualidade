@@ -1,1 +1,16 @@
-Hoje eu preciso gravar aulas
+{
+  "todos": [
+    {
+      "id": "098ae9ca-925e-4100-8914-2a23c75b1079",
+      "date": "2024-01-10T23:23:44.739Z",
+      "content": "Primeira tudo",
+      "done": false
+    },
+    {
+      "id": "1db20213-306d-4146-b610-91452e94de94",
+      "date": "2024-01-10T23:23:44.745Z",
+      "content": "Third todo",
+      "done": false
+    }
+  ]
+}
