@@ -1,7 +1,6 @@
 import fs from "fs";
 import { v4 as uuid } from "uuid";
 const DB_FILE_PATH = "./core/db";
-console.log(" [CRUD]");
 
 interface Todo {
   id: string;
@@ -76,13 +75,15 @@ function deleteById(id: string) {
     return todo.id !== id;
   });
 
-  console.log("Todos without one", todosWithoutOne);
-
   fs.writeFileSync(
     DB_FILE_PATH,
-    JSON.stringify({
-      todos: todosWithoutOne,
-    }, null, 2)
+    JSON.stringify(
+      {
+        todos: todosWithoutOne,
+      },
+      null,
+      2
+    )
   );
 }
 
@@ -94,11 +95,9 @@ function CLEAR_DB() {
 CLEAR_DB();
 create("Primeira tudo");
 const secondTodo = create("Segunda tudo");
-const thirdTod = create("Third todo");
 
 deleteById(secondTodo.id);
-// update(secondTodo.id, {
-//   content: "Segunda TODO com novo content",
-//   done: true
-// });
-console.log(read());
+update(secondTodo.id, {
+  content: "Segunda TODO com novo content",
+  done: true,
+});
