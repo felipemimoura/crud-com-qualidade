@@ -10,7 +10,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint './**/*.{jsx,jsx,ts,tsx}'",
+    "lint:fix": "npm run lint -- --fix"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,16 @@
     "@types/node": "^20.10.6",
     "@types/react": "18.2.47",
     "@types/uuid": "^9.0.7",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "prettier": "^2.8.7"
   },
   "dependencies": {
     "next": "^14.0.4",

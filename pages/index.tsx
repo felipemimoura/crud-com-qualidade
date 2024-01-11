@@ -1,3 +1,4 @@
+import React from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyle";
 
 const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
@@ -6,11 +7,9 @@ export default function Page() {
     <main>
       <GlobalStyles themeName="coolGrey" />
       <header
-        style={
-          {
-             backgroundImage: `url('${bg}')`,
-          }
-        }
+        style={{
+          backgroundImage: `url('${bg}')`,
+        }}
       >
         <div className="typewriter">
           <h1>O que fazer hoje?</h1>
