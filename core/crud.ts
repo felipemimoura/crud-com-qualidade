@@ -33,7 +33,7 @@ function create(content: string): Todo {
   return todo;
 }
 
-function read(): Array<Todo> {
+export function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, "utf8"); // Leitura dos arquivos
 
   const db = JSON.parse(dbString || "{}");
@@ -92,12 +92,12 @@ function CLEAR_DB() {
 }
 
 // [Simulation]
-CLEAR_DB();
-create("Primeira tudo");
-const secondTodo = create("Segunda tudo");
+// CLEAR_DB();
+// create("Primeira tudo");
+// const secondTodo = create("Segunda tudo");
 
-deleteById(secondTodo.id);
-update(secondTodo.id, {
-  content: "Segunda TODO com novo content",
-  done: true,
-});
+// deleteById(secondTodo.id);
+// update(secondTodo.id, {
+//   content: "Segunda TODO com novo content",
+//   done: true,
+// });
