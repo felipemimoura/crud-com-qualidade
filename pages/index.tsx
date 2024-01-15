@@ -14,6 +14,7 @@ export default function Page() {
   const [totalPages, setTotalPages] = React.useState(0);
   const [page, setPage] = React.useState(1);
   const [search, setSearch] = React.useState("");
+  const [newTodoContent, setNewTodoContent] = React.useState("");
   const [todos, setTodos] = React.useState<HomeTodo[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const homeTodos = todoController.filterTodosByContent<HomeTodo>(
@@ -35,6 +36,7 @@ export default function Page() {
         .get({ page })
         .then(({ todos, pages }) => {
           setTodos(todos);
+
           setTotalPages(pages);
         })
         .finally(() => {
@@ -55,8 +57,31 @@ export default function Page() {
         <div className="typewriter">
           <h1>O que fazer hoje?</h1>
         </div>
-        <form>
-          <input type="text" placeholder="Correr, Estudar..." />
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            todoController.create({
+              content: newTodoContent,
+              onSuccess(todo: HomeTodo) {
+                setTodos((oldTodos) => {
+                  return [todo, ...oldTodos];
+                });
+                setNewTodoContent("");
+              },
+              onError() {
+                alert("Voce precisa do conteúdo");
+              },
+            });
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Correr, Estudar..."
+            value={newTodoContent}
+            onChange={function newTodoHandler(event) {
+              setNewTodoContent(event.target.value);
+            }}
+          />
           <button type="submit" aria-label="Adicionar novo item">
             +
           </button>
