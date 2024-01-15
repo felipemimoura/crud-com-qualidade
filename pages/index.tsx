@@ -10,21 +10,27 @@ interface HomeTodo {
 }
 
 export default function Page() {
-  const [initialLoadComplete, setInitialLoadComplete] = React.useState(false);
+  const initialLoadComplete = React.useRef(false);
   const [totalPages, setTotalPages] = React.useState(0);
   const [page, setPage] = React.useState(1);
+  const [search, setSearch] = React.useState("");
   const [todos, setTodos] = React.useState<HomeTodo[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const homeTodos = todoController.filterTodosByContent<HomeTodo>(
+    search,
+    todos
+  );
 
   const hasMorePage = totalPages > page;
-  const hasNoTodos = todos.length === 0 && !isLoading;
+  const hasNoTodos = homeTodos.length === 0 && !isLoading;
+
+  // setTodos(filteredTodos);
 
   //Load info onload
   // React.useEffect(() => {}, [])
   // -- Roda só no load da página
   React.useEffect(() => {
-    setInitialLoadComplete(true);
-    if (!initialLoadComplete) {
+    if (!initialLoadComplete.current) {
       todoController
         .get({ page })
         .then(({ todos, pages }) => {
@@ -33,6 +39,7 @@ export default function Page() {
         })
         .finally(() => {
           setIsLoading(false);
+          initialLoadComplete.current = true;
         });
     }
   }, []);
@@ -58,7 +65,14 @@ export default function Page() {
 
       <section>
         <form>
-          <input type="text" placeholder="Filtrar lista atual, ex: Dentista" />
+          <input
+            type="text"
+            placeholder="Filtrar lista atual, ex: Dentista"
+            value={search}
+            onChange={function handler(event) {
+              setSearch(event.target.value);
+            }}
+          />
         </form>
 
         <table border={1}>
@@ -74,7 +88,7 @@ export default function Page() {
           </thead>
 
           <tbody>
-            {todos.map((currentTodo) => {
+            {homeTodos.map((currentTodo) => {
               return (
                 <tr key={currentTodo.id}>
                   <td>
