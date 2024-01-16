@@ -52,7 +52,38 @@ async function create(req: NextApiRequest, res: NextApiResponse) {
     todo: createdTodo,
   });
 }
+
+async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
+  const todoId = req.query.id;
+
+  if (!todoId || typeof todoId !== "string") {
+    res.status(400).json({
+      error: {
+        message: "You must to provide a string Id",
+      },
+    });
+    return;
+  }
+
+  try {
+    const updatedTodo = await todoRepository.toggleDone(todoId);
+    // Get repository
+
+    res.status(200).json({
+      todo: updatedTodo,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      res.status(404).json({
+        error: {
+          message: err.message,
+        },
+      });
+    }
+  }
+}
 export const todoController = {
   get,
   create,
+  toggleDone,
 };

@@ -45,7 +45,7 @@ export function read(): Array<Todo> {
   return db.todos;
 }
 
-function update(id: string, partialTodo: Partial<Todo>): Todo {
+export function update(id: string, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
   // Buscar todas as todos
   const todos = read();

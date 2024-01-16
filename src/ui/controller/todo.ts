@@ -1,5 +1,6 @@
 import { todoRepository } from "@ui/repository/todo";
 import { Todo } from "@ui/schema/todo";
+import { z as schema } from "zod";
 
 interface TodoControllerGetParams {
   page: number;
@@ -34,13 +35,14 @@ async function create({
 }: TodoControllerCreateParams) {
   // Fail fast validation
   // if no has content
-  if (!content) {
+  const parsedParams = schema.string().min(1).safeParse(content);
+  if (!parsedParams.success) {
     onError();
     return;
   }
 
   await todoRepository
-    .createByContent(content)
+    .createByContent(parsedParams.data)
     .then((newTodo) => {
       onSuccess(newTodo);
     })
@@ -48,8 +50,22 @@ async function create({
       onError();
     });
 }
+
+interface TodoControllerToggleDoneParams {
+  id: string;
+  updatedTodoOnScreen: () => void;
+}
+async function toggleDone({
+  id,
+  updatedTodoOnScreen,
+}: TodoControllerToggleDoneParams) {
+  todoRepository.toggleDone(id).then(() => {
+    updatedTodoOnScreen();
+  });
+}
 export const todoController = {
   get,
   filterTodosByContent,
   create,
+  toggleDone,
 };
