@@ -137,6 +137,9 @@ export default function Page() {
                               });
                             });
                           },
+                          onError() {
+                            alert("Error ao atualizar a TODO");
+                          },
                         });
                       }}
                     />
