@@ -6,7 +6,7 @@ interface TodoControllerGetParams {
   page: number;
 }
 async function get({ page }: TodoControllerGetParams) {
-  return await todoRepository.get({ page: page || 1, limit: 2 });
+  return await todoRepository.get({ page: page || 1, limit: 4 });
 }
 
 function filterTodosByContent<T>(
@@ -70,9 +70,15 @@ async function toggleDone({
       onError();
     });
 }
+
+async function deleteById(id: string): Promise<void> {
+  const todoId = id;
+  await todoRepository.deleteById(todoId);
+}
 export const todoController = {
   get,
   filterTodosByContent,
   create,
   toggleDone,
+  deleteById,
 };

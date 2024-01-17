@@ -67,7 +67,7 @@ export function update(id: string, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
-function deleteById(id: string) {
+export function deleteById(id: string) {
   // get all todos
   const todos = read();
 
