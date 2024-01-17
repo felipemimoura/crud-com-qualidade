@@ -9,7 +9,7 @@ interface Todo {
   done: boolean;
 }
 
-function create(content: string): Todo {
+export function create(content: string): Todo {
   const todo: Todo = {
     id: uuid(),
     date: new Date().toISOString(),
@@ -45,7 +45,7 @@ export function read(): Array<Todo> {
   return db.todos;
 }
 
-function update(id: string, partialTodo: Partial<Todo>): Todo {
+export function update(id: string, partialTodo: Partial<Todo>): Todo {
   let updatedTodo;
   // Buscar todas as todos
   const todos = read();
@@ -67,7 +67,7 @@ function update(id: string, partialTodo: Partial<Todo>): Todo {
   return updatedTodo;
 }
 
-function deleteById(id: string) {
+export function deleteById(id: string) {
   // get all todos
   const todos = read();
 

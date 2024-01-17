@@ -1,3 +1,5 @@
+import { Todo, TodoSchema } from "@ui/schema/todo";
+import { z as schema } from "zod";
 interface TodoRepositoryGetParams {
   page: number;
   limit: number;
@@ -7,7 +9,7 @@ interface TodoRepositoryGetOutput {
   total: number;
   pages: number;
 }
-function get({
+async function get({
   page,
   limit,
 }: TodoRepositoryGetParams): Promise<TodoRepositoryGetOutput> {
@@ -24,16 +26,72 @@ function get({
     }
   );
 }
+
+export async function createByContent(content: string): Promise<Todo> {
+  const response = await fetch("/api/todos", {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      content,
+    }),
+  });
+
+  if (response.ok) {
+    const serverResponse = await response.json();
+
+    const ServerResponseSchema = schema.object({
+      todo: TodoSchema,
+    });
+
+    const serverResponseParsed = ServerResponseSchema.safeParse(serverResponse);
+    if (!serverResponseParsed.success) {
+      throw new Error("Failed to create todo");
+    }
+    const todo = serverResponseParsed.data.todo;
+    return todo;
+  }
+
+  throw new Error("Failed to crete todo :(");
+}
+
+async function toggleDone(id: string): Promise<Todo> {
+  const response = await fetch(`/api/todos/${id}/toggle-done`, {
+    method: "PUT",
+  });
+  if (response.ok) {
+    const serverResponse = await response.json();
+    const ServerResponseSchema = schema.object({
+      todo: TodoSchema,
+    });
+
+    const serverResponseParsed = ServerResponseSchema.safeParse(serverResponse);
+    if (!serverResponseParsed.success) {
+      throw new Error(`Failed to update todo with id ${id}`);
+    }
+    const updatedTodo = serverResponseParsed.data.todo;
+    return updatedTodo;
+  }
+
+  throw new Error("Server Error");
+}
+
+async function deleteById(id: string) {
+  const response = await fetch(`api/todos/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete");
+  }
+}
 export const todoRepository = {
   get,
+  createByContent,
+  toggleDone,
+  deleteById,
 };
-// Model/schema
-interface Todo {
-  id: string;
-  content: string;
-  date: Date;
-  done: boolean;
-}
 
 function parseTodosFromServer(responseBody: unknown): {
   total: number;
@@ -66,7 +124,7 @@ function parseTodosFromServer(responseBody: unknown): {
           id,
           content,
           done: String(done).toLowerCase() === "true",
-          date: new Date(date),
+          date: date,
         };
       }),
     };
