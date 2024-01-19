@@ -9,5 +9,10 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: "Lint"
-        run: "npm run lint"
+        ## [COmmon_CI_STEPS]
+        - uses: actions/checkout@v3
+        ## ========
+        - name: "Debug"
+          run: "ls -la"
+        - name: "Lint"
+          run: "npm run lint"
