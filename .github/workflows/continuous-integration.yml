@@ -9,12 +9,22 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-        ## [COmmon_CI_STEPS]
-        - uses: actions/checkout@v3
-        ## ========
-        - name: "Debug"
-          run: "ls -la"
-        - name: "Install Dependecies"
-          run: "npm install"
-        - name: "Lint"
-          run: "npm run lint"
+      ## [COmmon_CI_STEPS]
+      - uses: actions/checkout@v3
+      ## ========
+      - name: "Debug"
+        run: "ls -la"
+      - name: "Install Dependecies"
+        run: "npm install"
+      - name: "Lint"
+        run: "npm run lint"
+
+  test:
+    runs-on: "ubuntu-latest"
+    container: "cypress/browsers:node18.12.0-chrome107"
+    steps:
+      - uses: actions/checkout@v3
+      - name: "Install dependecies"
+        run: "npm install"
+      - name: "test"
+        run: "npm run test"
