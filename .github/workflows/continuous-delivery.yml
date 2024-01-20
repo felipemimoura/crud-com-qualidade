@@ -1,0 +1,26 @@
+name: "[CI] Continuous Delivery"
+
+# Sempre que um commit ou PR for aberto
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  VERCEL_TOKEN: prj_3CqhJuUbmagdewvgLn9gC68QgQgP
+  VERCEL_ORG_ID: gmElKpiRaFR4RYw67lNgOUWx
+  VERCEL_PROJECT_ID: prj_3CqhJuUbmagdewvgLn9gC68QgQgP
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      ## [COmmon_CI_STEPS]
+      - uses: actions/checkout@v3
+      ## ========
+      - name: "Debug"
+        run: "ls -la"
+      - name: "Install Dependencies"
+        run: "npm install"
+      - name: "Deploy"
+        run: "npx vercel --prod --token=${{secrets.VERCEL_TOKEN}}"

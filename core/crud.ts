@@ -87,7 +87,7 @@ export function deleteById(id: string) {
   );
 }
 
-function CLEAR_DB() {
+export function CLEAR_DB() {
   fs.writeFileSync(DB_FILE_PATH, "");
 }
 
