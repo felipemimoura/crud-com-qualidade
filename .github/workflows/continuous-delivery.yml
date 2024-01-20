@@ -3,8 +3,8 @@ name: "[CI] Continuous Delivery"
 # Sempre que um commit ou PR for aberto
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
+    branches: [main]
 
 env:
   VERCEL_TOKEN: prj_3CqhJuUbmagdewvgLn9gC68QgQgP
