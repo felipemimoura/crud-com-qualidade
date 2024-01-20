@@ -6,7 +6,7 @@ interface TodoControllerGetParams {
   page: number;
 }
 async function get({ page }: TodoControllerGetParams) {
-  return await todoRepository.get({ page: page || 1, limit: 4 });
+  return await todoRepository.get({ page: page || 1, limit: 2 });
 }
 
 function filterTodosByContent<T>(
