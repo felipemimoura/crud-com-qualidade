@@ -1,5 +1,3 @@
-
-
 <h1 align="center">
 	Crud com qualidade
 </h1>
@@ -32,13 +30,15 @@ O Projeto foi desenvolvido atrás do curso <a href="https://crudcomqualidade.io/
 
 ## 🛠 Tecnologias
 
+<div style="display: inline_block">
   <img align="center" alt="Next" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg">
   <img align="center" alt="React" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
   <img align="center" alt="Ts" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-plain.svg">
-    <img align="center" alt="Node" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg">
-    <img align="center" alt="Eslint" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/eslint/eslint-original.svg">
-    <img align="center" alt="Supabase" height="50" width="60" src="https://pipedream.com/s.v0/app_1dBhP3/logo/96">
-    <img align="center" alt="Cypress" height="50" width="60" src="https://static-00.iconduck.com/assets.00/cypress-icon-512x511-29zvfts6.png">
+  <img align="center" alt="Node" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg">
+  <img align="center" alt="Eslint" height="50" width="60" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/eslint/eslint-original.svg">
+  <img align="center" alt="Supabase" height="50" width="60" src="https://pipedream.com/s.v0/app_1dBhP3/logo/96">
+  <img align="center" alt="Cypress" height="50" width="60" src="https://static-00.iconduck.com/assets.00/cypress-icon-512x511-29zvfts6.png">
+  </div>
 
 ## ⚙️ Funcionalidades
 
