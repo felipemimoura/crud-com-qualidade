@@ -1,19 +1,9 @@
-import {
-  read,
-  create,
-  update,
-  deleteById as dbDeleteById,
-} from "@db-crud-todo";
+import { supabase } from "@server/infra/db/supabase";
 import { HttpNotFoundError } from "@server/infra/errors";
 import { Todo, TodoSchema } from "@server/schema/todo";
 
-import { createClient } from "@supabase/supabase-js";
-
 // =====
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_SECRET_KEY || "";
 
-const supabase = createClient(supabaseUrl, supabaseKey);
 // ====
 interface TodoRepositoryGetParams {
   page?: number;
@@ -136,5 +126,3 @@ export const todoRepository = {
   toggleDone,
   deleteById,
 };
-
-// Model/schema
