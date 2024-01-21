@@ -1,7 +1,7 @@
 import { todoController } from "@server/controller/todo";
 
 export async function GET(request: Request) {
-  return await todoController.get(request, response);
+  return await todoController.get(request);
 }
 
 // import { NextApiRequest, NextApiResponse } from "next";
