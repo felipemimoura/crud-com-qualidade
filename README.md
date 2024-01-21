@@ -96,7 +96,7 @@ $ npm run dev
 <a href="#">
  <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/54039276?v=4" width="100px;" alt=""/>
  <br />
- <sub><b>Felipe Miranda de Moura</b></sub></a> <a href="https://www.linkedin.com/in/felipemimoura/" title="Rocketseat">🚀</a>
+ <sub><b>Felipe Miranda de Moura</b></sub></a> <a href="https://www.linkedin.com/in/felipemimoura/" title="Felipe Moura"></a>
  <br />
 
 [![Linkedin Badge](https://img.shields.io/badge/-Felipe_Moura-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/felipemmoura/)](https://www.linkedin.com/in/felipemmoura/)
