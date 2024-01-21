@@ -3,24 +3,36 @@ import { todoRepository } from "@server/repository/todo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z as schema } from "zod";
 
-async function get(req: NextApiRequest, res: NextApiResponse) {
-  const query = req.query;
+async function get(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const query = {
+    page: searchParams.get("page"),
+    limit: searchParams.get("limit"),
+  };
   const page = Number(query.page);
   const limit = Number(query.limit);
 
   if (query.page && isNaN(page)) {
-    return res.status(400).json({
-      error: {
-        message: "Page must be a number",
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: "Page must be a number",
+        },
+      }),
+      {
+        status: 400,
+      }
+    );
   }
   if (query.limit && isNaN(limit)) {
-    return res.status(400).json({
-      error: {
-        message: "limit must be a number",
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: "limit must be a number",
+        },
+      }),
+      { status: 400 }
+    );
   }
 
   const output = await todoRepository.get({
@@ -28,38 +40,61 @@ async function get(req: NextApiRequest, res: NextApiResponse) {
     limit: limit,
   });
 
-  res.status(200).json(output);
+  return new Response(
+    JSON.stringify({
+      total: output.total,
+      page: output.page,
+      todos: output.todos,
+    }),
+    {
+      status: 200,
+    }
+  );
 }
 
 const TodoCreateBodySchema = schema.object({
   content: schema.string(),
 });
-async function create(req: NextApiRequest, res: NextApiResponse) {
+async function create(req: Request) {
   // fail fast validation
-  const body = TodoCreateBodySchema.safeParse(req.body);
+  const body = TodoCreateBodySchema.safeParse(await req.json());
   if (!body.success) {
-    res.status(400).json({
-      error: {
-        message: "You need to provide a content to create a todo",
-        description: body.error.issues,
-      },
-    });
-    return;
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: "You need to provide a content to create a todo",
+          description: body.error.issues,
+        },
+      }),
+      {
+        status: 400,
+      }
+    );
   }
 
   try {
     const createdTodo = await todoRepository.createByContent(body.data.content);
-    res.status(201).json({
-      todo: createdTodo,
-    });
+
+    return new Response(
+      JSON.stringify({
+        todo: createdTodo,
+      }),
+      {
+        status: 201,
+      }
+    );
   } catch {
-    res.status(400).json({
-      error: {
-        message: "Failed to create todo",
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: "Failed to create todo",
+        },
+      }),
+      {
+        status: 400,
+      }
+    );
   }
-  // Here we have the data
 }
 
 async function toggleDone(req: NextApiRequest, res: NextApiResponse) {
